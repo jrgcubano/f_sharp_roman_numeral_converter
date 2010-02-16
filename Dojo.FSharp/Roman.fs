@@ -14,17 +14,25 @@ let is_left_of(x, n:RomanNumber) =
 
 let is_right_of(x, n:RomanNumber) =
     (x >= n.decimal_num && x < n.right_bound)
+
+let nums = [
+            { num="L"; decimal_num = 50; left_bound = 40; right_bound = 90;};
+            { num="C"; decimal_num = 100; left_bound = 90; right_bound = 400;}
+            ]
     
    
 let  rec convert x =
+    
         if(x>=10 && x<40) then
             "X" + convert(x-10)
-        elif(is_left_of(x, { num="L"; decimal_num = 50; left_bound = 40; right_bound = 90;})) then
-            convert(50-x) + "L"
-        elif(is_right_of(x, { num="L"; decimal_num = 50; left_bound = 40; right_bound = 90;})) then
-            "L" + convert(x-50)
-        elif(x >= 100) then
-            "C" + convert(x-100)
+        elif(is_left_of(x, nums.Item(0))) then
+            convert(nums.Item(0).decimal_num-x) + "L"
+        elif(is_right_of(x, nums.Item(0))) then
+            "L" + convert(x-nums.Item(0).decimal_num)
+        elif(is_left_of(x, nums.Item(1))) then
+            convert(nums.Item(1).decimal_num-x) + "C"
+        elif(is_right_of(x, nums.Item(1))) then
+            "C" + convert(x-nums.Item(1).decimal_num)
         else
             match Math.Abs((int)x) with
             | 0 -> ""
